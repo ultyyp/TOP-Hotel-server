@@ -1,0 +1,34 @@
+#server:
+#  port: 8080
+#
+#spring:
+#  datasource:
+#    username: root
+#    password:
+#    url: jdbc:mysql://localhost:3306/ITTOP_Hotel_db
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  jpa:
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        ddl-auto: update
+#        format_sql: true
+#  servlet:
+#    multipart:
+#      max-file-size: 500KB
+#      max-request-size: 500KB
+#
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: DEBUG
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: TRACE
+#
+#
+#
+#
+#
