@@ -1,6 +1,8 @@
 package com.ultyyp.ittophotel.controller;
 
+import com.ultyyp.ittophotel.model.BookedRoom;
 import com.ultyyp.ittophotel.model.User;
+import com.ultyyp.ittophotel.response.BookingResponse;
 import com.ultyyp.ittophotel.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,6 +26,15 @@ public class UserController {
 
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.FOUND);
     }
+
+    @GetMapping("/{email}/fullname")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<String> getFullNameByUserEmail(@PathVariable String email) {
+        User user = userService.getUser(email);
+        String userFullName = user.getFirstName() + " " + user.getLastName();
+        return ResponseEntity.ok(userFullName);
+    }
+
 
     @GetMapping("/{email}")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")

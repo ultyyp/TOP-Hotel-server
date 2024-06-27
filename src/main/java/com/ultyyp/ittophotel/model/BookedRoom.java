@@ -47,6 +47,10 @@ public class BookedRoom {
     @JoinColumn(name = "room_id")
     private Room room;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     public void calculateTotalNumberOfGuest(){
         this.totalNumOfGuests = this.NumOfAdults + NumOfChildren;
@@ -65,4 +69,19 @@ public class BookedRoom {
     public void setBookingConfirmationCode(String bookingConfirmationCode) {
         this.bookingConfirmationCode = bookingConfirmationCode;
     }
+
+    // Additional methods to get guest details from the User object
+//    public String getGuestFullName() {
+//        if (this.user != null) {
+//            return this.user.getFirstName() + " " + this.user.getLastName();
+//        }
+//        return guestFullName;
+//    }
+//
+//    public String getGuestEmail() {
+//        if (this.user != null) {
+//            return this.user.getEmail();
+//        }
+//        return guestEmail;
+//    }
 }

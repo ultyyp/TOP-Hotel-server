@@ -4,6 +4,7 @@ import com.ultyyp.ittophotel.exception.InvalidBookingRequestException;
 import com.ultyyp.ittophotel.exception.ResourceNotFoundException;
 import com.ultyyp.ittophotel.model.BookedRoom;
 import com.ultyyp.ittophotel.model.Room;
+import com.ultyyp.ittophotel.model.User;
 import com.ultyyp.ittophotel.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookingService implements IBookingService {
     private final IRoomService roomService;
+    private final IUserService userService;
     private final BookingRepository bookingRepository;
 
     @Override
@@ -46,6 +48,8 @@ public class BookingService implements IBookingService {
         boolean roomIsAvailable = roomIsAvailable(bookingRequest, existingBookings);
         if(roomIsAvailable){
             room.addBooking(bookingRequest);
+            User user = userService.getUser(bookingRequest.getGuestEmail());
+            bookingRequest.setUser(user);
             bookingRepository.save(bookingRequest);
         }
         else{
