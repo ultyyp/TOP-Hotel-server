@@ -1,8 +1,10 @@
 package com.ultyyp.ittophotel.service;
 
 import com.ultyyp.ittophotel.exception.UserAlreadyExistsException;
+import com.ultyyp.ittophotel.model.BookedRoom;
 import com.ultyyp.ittophotel.model.Role;
 import com.ultyyp.ittophotel.model.User;
+import com.ultyyp.ittophotel.repository.BookingRepository;
 import com.ultyyp.ittophotel.repository.RoleRepository;
 import com.ultyyp.ittophotel.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -20,6 +22,7 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final BookingRepository bookingRepository;
 
     @Override
     public User registerUser(User user) {
@@ -41,6 +44,11 @@ public class UserService implements IUserService {
     @Transactional
     @Override
     public void deleteUser(String email) {
+        List<BookedRoom> roomsToDelete = bookingRepository.findByGuestEmail(getUser(email).getEmail());
+        for(BookedRoom room : roomsToDelete){
+            bookingRepository.delete(room);
+        }
+
         User theUser = getUser(email);
         if (theUser != null){
             userRepository.deleteByEmail(email);
